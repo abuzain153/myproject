@@ -115,6 +115,10 @@ def chart_view(request):
     return render(request, 'graph.html', {'graph': image_data})
 
 def add_quantity(request):
+    print("=== تم تنفيذ POST للإضافة ===")
+    print(f"ID المنتج: {request.POST.get('product_id')}")
+    print(f"الكمية المطلوب إضافتها: {request.POST.get('quantity_to_add')}")
+
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
         quantity_to_add = request.POST.get('quantity_to_add')
@@ -145,6 +149,11 @@ def add_quantity(request):
 
 # سحب كمية من منتج
 def withdraw_quantity(request):
+    print("=== تم تنفيذ POST للسحب ===")
+    print(f"ID المنتج: {request.POST.get('product_id')}")
+    print(f"الكمية المطلوبة للسحب: {request.POST.get('quantity_to_withdraw')}")
+
+
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
         quantity_to_withdraw = request.POST.get('quantity_to_withdraw')
