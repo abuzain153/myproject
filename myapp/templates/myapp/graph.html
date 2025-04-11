@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرسم البياني للمسحوبات</title>
+</head>
+<body>
+    <h1>الرسم البياني للمسحوبات</h1>
+    
+    {% if error %}
+        <p>{{ error }}</p>
+    {% else %}
+        <img src="data:image/png;base64,{{ graph }}" alt="الرسم البياني">
+    {% endif %}
+</body>
+</html>

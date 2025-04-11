@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير المنتجات المسحوبة</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>تقرير المنتجات المسحوبة</h1>
+        {% if error %}
+            <p>{{ error }}</p>
+        {% else %}
+            <canvas id="withdrawalChart"></canvas>
+        {% endif %}
+    </div>
+
+    <script>
+        {% if withdrawn_data %}
+            const withdrawnData = [
+                {% for data in withdrawn_data %}
+                    { label: '{{ data.product__product_name }}', data: {{ data.total_quantity }} },
+                {% endfor %}
+            ];
+
+            const ctx = document.getElementById('withdrawalChart').getContext('2d');
+            const withdrawalChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: withdrawnData.map(item => item.label),
+                    datasets: [{
+                        label: 'الكمية المسحوبة',
+                        data: withdrawnData.map(item => item.data),
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + ' وحدة';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        {% endif %}
+    </script>
+
+</body>
+</html>

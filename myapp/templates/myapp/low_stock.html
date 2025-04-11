@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نواقص المخزون</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: right;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .low-stock-row {
+            background-color: #ffe6e6;
+        }
+    </style>
+</head>
+<body>
+    <h1>نواقص المخزون</h1>
+
+    <input type="text" id="searchInput" placeholder="ابحث عن منتج...">
+
+    {% if low_stock %}
+        <table id="lowStockTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>اسم المنتج</th>
+                    <th>الرمز</th>
+                    <th>الكمية المتوفرة</th>
+                    <th>الوحدة</th>
+                    <th>الحد الأدنى للمخزون</th>
+                    <th>الحالة</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in low_stock %}
+                    <tr class="{% if product.quantity < product.min_stock %}low-stock-row{% endif %}">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ product.product_name }}</td>
+                        <td>{{ product.product_code }}</td>
+                        <td>{{ product.quantity|floatformat:2 }}</td>
+                        <td>{{ product.unit }}</td>
+                        <td>{{ product.min_stock }}</td>
+                        <td>{% if product.quantity < product.min_stock %}نقص{% else %}متوفر{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-stock">لا توجد منتجات ناقصة في المخزون حالياً.</p>
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const table = document.getElementById('lowStockTable');
+
+            if (table) {
+                const rows = table.getElementsByTagName('tr');
+
+                searchInput.addEventListener('input', function() {
+                    const filter = searchInput.value.toLowerCase();
+
+                    for (let i = 1; i < rows.length; i++) {
+                        const cells = rows[i].getElementsByTagName('td');
+                        let isMatch = false;
+
+                        for (let j = 0; j < cells.length; j++) {
+                            if (cells[j].textContent.toLowerCase().includes(filter)) {
+                                isMatch = true;
+                                break;
+                            }
+                        }
+
+                        rows[i].style.display = isMatch ? '' : 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

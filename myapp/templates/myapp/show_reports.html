@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقارير</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl; /* الاتجاه من اليمين لليسار */
+            text-align: center; /* توسيط المحتوى */
+        }
+        .report-links {
+            margin-top: 20px;
+        }
+        .report-links a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        .report-links a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>التقارير</h1>
+
+    <div class="report-links">
+        <a href="{% url 'received_report' %}">تقرير الكميات المستلمة</a>
+        <a href="{% url 'withdrawn_report' %}">تقرير الكميات المسحوبة</a>
+    </div>
+
+    <p style="text-align: center; color: #777; font-size: 14px;">يمكنك الوصول إلى تقارير عن الكميات المستلمة والكميات المسحوبة من خلال الأزرار أعلاه.</p>
+</body>
+</html>
