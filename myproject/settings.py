@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-9_$az03iqojjq#l_f7=^penpwyz6=qipvz$2m%mou$1yq%wao3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['prima-dd2g.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
