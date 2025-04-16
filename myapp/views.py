@@ -165,7 +165,11 @@ def export_excel(request):
     response['Content-Disposition'] = 'attachment; filename="inventory.xlsx"'
     df.to_excel(response, index=False)
     return response
-
+def low_stock_products(request):
+    # الحد الأدنى للمخزون
+    low_stock_threshold = 10  # يمكنك تعديل الرقم حسب الحاجة
+    products = Product.objects.filter(quantity__lt=low_stock_threshold)
+    return render(request, 'myapp/low_stock.html', {'products': products})
 def index(request):
     return render(request, 'myapp/index.html')
 
