@@ -153,7 +153,18 @@ def show_graph(request):
 
     return render(request, 'myapp/graph.html', {'graph': image_data})
 
-
+def get_product_info(request, product_id):
+    # جلب المنتج المطلوب أو عرض خطأ 404 إذا لم يكن موجودًا
+    product = get_object_or_404(Product, id=product_id)
+    # إرجاع المعلومات كـ JSON
+    data = {
+        'product_name': product.product_name,
+        'product_code': product.product_code,
+        'quantity': product.quantity,
+        'unit': product.unit,
+        'min_stock': product.min_stock,
+    }
+    return JsonResponse(data)
 # Export products to Excel
 def export_excel(request):
     products = Product.objects.all()
