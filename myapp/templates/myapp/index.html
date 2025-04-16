@@ -4,21 +4,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصفحة الرئيسية</title>
+    <title>نظام إدارة المنتجات</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* إعدادات عامة */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://cdn.pixabay.com/photo/2017/06/13/22/42/warehouse-2409162_1280.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7); /* تأثير البهتان */
+            z-index: -1;
+        }
+
+        /* شريط التنقل */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 123, 255, 0.9);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #ddd;
+        }
+
+        /* القوائم المنسدلة */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* محتوى الصفحة */
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+        }
+
+        .section {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #f8f8f8;
+        }
+    </style>
 </head>
 <body>
+    <div class="overlay"></div>
+
     <!-- شريط التنقل -->
     <nav class="navbar">
-        <div class="container">
-            <a class="navbar-brand" href="#">نظام إدارة المنتجات</a>
-            <ul class="nav">
-                <li><a href="#">الرئيسية</a></li>
-                <li><a href="#about">عن الموقع</a></li>
-                <li><a href="#contact">اتصل بنا</a></li>
-                <li><a href="{% url 'logout' %}">تسجيل الخروج</a></li>
-            </ul>
-        </div>
+        <a class="navbar-brand" href="#">نظام إدارة المنتجات</a>
+        <ul class="nav">
+            <li><a href="{% url 'home' %}">الرئيسية</a></li>
+            <li><a href="#about">عن الموقع</a></li>
+            <li><a href="#contact">اتصل بنا</a></li>
+            <li class="dropdown">
+                <button class="dropdown-button">إدارة المنتجات 📦</button>
+                <div class="dropdown-content">
+                    <a href="{% url 'product_add' %}">إضافة منتج جديد</a>
+                    <a href="{% url 'product_edit' %}">تعديل منتج</a>
+                    <a href="{% url 'product_delete' %}">حذف منتج</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <button class="dropdown-button">التقارير 📊</button>
+                <div class="dropdown-content">
+                    <a href="{% url 'report_withdrawals' %}">تقرير السحوبات</a>
+                    <a href="{% url 'report_inventory' %}">تقرير المخزون الحالي</a>
+                    <a href="{% url 'report_shortages' %}">تقرير النواقص</a>
+                    <a href="{% url 'report_receptions' %}">تقرير الاستلامات</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <button class="dropdown-button">الحركات 🔄</button>
+                <div class="dropdown-content">
+                    <a href="{% url 'movement_add_quantity' %}">إضافة كمية</a>
+                    <a href="{% url 'movement_withdraw_quantity' %}">سحب كمية</a>
+                </div>
+            </li>
+            <li><a href="{% url 'logout' %}">تسجيل الخروج</a></li>
+        </ul>
     </nav>
 
     <!-- صورة خلفية ترحيبية -->
@@ -45,23 +192,9 @@
         </div>
     </section>
 
-    <!-- خيارات الوصول -->
-    <section id="options" class="section">
-        <div class="container">
-            <h2>خيارات الوصول</h2>
-            <ul>
-                <li><a href="{% url 'product_list' %}">إدارة المنتجات</a></li>
-                <li><a href="{% url 'show_reports' %}">التقارير</a></li>
-                <li><a href="#">الحركات</a></li>
-            </ul>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>© 2025 جميع الحقوق محفوظة.</p>
-        </div>
+        <p>© 2025 جميع الحقوق محفوظة.</p>
     </footer>
 </body>
 </html>
