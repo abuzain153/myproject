@@ -46,7 +46,11 @@ class ProductCreateView(CreateView):
         messages.error(self.request, "حدث خطأ في إضافة المنتج. يرجى التحقق من النموذج.")
         return super().form_invalid(form)
 
-
+def clear_products(request):
+    # حذف جميع المنتجات
+    Product.objects.all().delete()
+    messages.success(request, "تم حذف جميع المنتجات بنجاح.")
+    return redirect('product_list')  # إعادة التوجيه إلى قائمة المنتجات
 # Edit an existing product
 class ProductUpdateView(UpdateView):
     model = Product
