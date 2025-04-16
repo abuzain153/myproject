@@ -11,8 +11,31 @@ import pandas as pd
 from io import BytesIO
 import matplotlib.pyplot as plt
 import base64
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+# عرض تسجيل الدخول
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')  # الانتقال إلى الصفحة الرئيسية
+        else:
+            messages.error(request, 'اسم المستخدم أو كلمة المرور غير صحيحة.')
+    return render(request, 'myapp/login.html')
 
+# عرض تسجيل الخروج
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'تم تسجيل الخروج بنجاح.')
+    return redirect('login')
 
+# صفحة رئيسية تتطلب تسجيل الدخول
+@login_required
+def index(request):
+    return render(request, 'myapp/index.html')
 # Helper function to update product quantity
 def update_product_quantity(product, quantity, movement_type):
     if movement_type == 'سحب' and quantity > product.quantity:
