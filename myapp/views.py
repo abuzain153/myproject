@@ -109,7 +109,21 @@ def add_quantity(request):
 
     return render(request, 'myapp/add_quantity.html', {'products': Product.objects.all()})
 
+def received_report_excel(request):
+    # جلب جميع الحركات من النوع "استلام"
+    received_movements = Movement.objects.filter(movement_type='استلام')
+    data = {
+        'اسم المنتج': [movement.product.product_name for movement in received_movements],
+        'الكمية المستلمة': [movement.quantity for movement in received_movements],
+        'التاريخ': [movement.date.strftime('%Y-%m-%d') for movement in received_movements],
+    }
+    df = pd.DataFrame(data)
 
+    # إنشاء ملف Excel للتحميل
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="received_report.xlsx"'
+    df.to_excel(response, index=False)
+    return response
 # Withdraw quantity from a product
 def withdraw_quantity(request):
     if request.method == 'POST':
