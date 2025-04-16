@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ProductListView
-
+from . import views
 urlpatterns = [
     # الروابط الجديدة
     path('', views.index, name='index'),  # الصفحة الرئيسية
