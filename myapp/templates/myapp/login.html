@@ -4,24 +4,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>برنامج إدارة المخازن</title>
+    <style>
+        /* خلفية الشاشة */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://cdn.pixabay.com/photo/2016/11/29/03/53/warehouse-1866342_1280.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* الحاوية الرئيسية */
+        .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+        }
+
+        /* العنوان */
+        .login-container h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* صورة */
+        .login-container img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+
+        /* الحقول */
+        .login-container input {
+            width: calc(100% - 20px);
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* زر تسجيل الدخول */
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* نسيت كلمة المرور */
+        .login-container a {
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .login-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* أيقونات */
+        .icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">تسجيل الدخول</h2>
-        <form method="post" action="{% url 'login' %}">
+    <div class="login-container">
+        <h1>برنامج إدارة المخازن</h1>
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User Icon">
+        <form method="post">
             {% csrf_token %}
-            <div class="mb-3">
-                <label for="username" class="form-label">اسم المستخدم</label>
-                <input type="text" class="form-control" id="username" name="username" required>
+            <div>
+                <label for="username">
+                    <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" class="icon" alt="User Icon">
+                    اسم المستخدم
+                </label>
+                <input type="text" id="username" name="username" placeholder="أدخل اسم المستخدم" required>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">كلمة المرور</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+            <div>
+                <label for="password">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" class="icon" alt="Key Icon">
+                    كلمة المرور
+                </label>
+                <input type="password" id="password" name="password" placeholder="أدخل كلمة المرور" required>
             </div>
-            <button type="submit" class="btn btn-primary w-100">تسجيل الدخول</button>
+            <button type="submit">تسجيل الدخول</button>
         </form>
+        <a href="#">نسيت كلمة المرور؟</a>
     </div>
 </body>
 </html>
