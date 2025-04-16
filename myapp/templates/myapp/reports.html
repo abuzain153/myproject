@@ -7,7 +7,7 @@
     <h1 class="text-center mb-4">{{ report_type }}</h1>
 
     <div class="d-flex justify-content-center mb-4">
-        <a href="{% url 'export_excel_report' report_type %}" class="btn btn-success me-2">تصدير إلى Excel</a>
+        <a href="{% url 'export_excel' report_type %}" class="btn btn-success me-2">تصدير إلى Excel</a>
         <a href="{% url 'export_pdf_report' report_type %}" class="btn btn-danger">تصدير إلى PDF</a>
     </div>
 
