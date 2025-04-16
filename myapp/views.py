@@ -166,7 +166,12 @@ def export_excel(request):
     df.to_excel(response, index=False)
     return response
 
+def index(request):
+    return render(request, 'myapp/index.html')
 
+def inventory(request):
+    products = Product.objects.all()
+    return render(request, 'myapp/inventory.html', {'products': products})
 # Import products from Excel
 def import_excel(request):
     if request.method == 'POST':
