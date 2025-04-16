@@ -51,6 +51,11 @@ def show_reports(request):
         'reports': [],  # أضف التقارير هنا
     }
     return render(request, 'myapp/reports.html', context)
+def product_list(request):
+    # جلب جميع المنتجات من قاعدة البيانات
+    products = Product.objects.all()
+    # تمرير المنتجات إلى القالب
+    return render(request, 'myapp/product_list.html', {'products': products})   
 def clear_products(request):
     # حذف جميع المنتجات
     Product.objects.all().delete()
