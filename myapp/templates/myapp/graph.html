@@ -10,7 +10,11 @@
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">الرسم البياني للمسحوبات</h1>
-
+    <!-- إضافة الرابط هنا -->
+    <div class="text-center mb-3">
+        <a href="{% url 'show_graph' %}" class="btn btn-primary">عرض الرسم البياني</a>
+    </div>
+    
     {% if error %}
         <div class="alert alert-danger text-center" role="alert">
             {{ error }}
