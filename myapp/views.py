@@ -164,7 +164,33 @@ def withdraw_quantity(request):
 
     return render(request, 'myapp/withdraw_quantity.html', {'products': Product.objects.all()})
 
+def chart_view(request):
+    # جلب الحركات من النوع "سحب"
+    movements = Movement.objects.filter(movement_type='سحب')
+    if not movements.exists():
+        return render(request, 'myapp/chart.html', {'error': 'لا توجد بيانات لعرض الرسم البياني.'})
 
+    # إعداد البيانات للرسم البياني
+    dates = [movement.date.strftime('%Y-%m-%d') for movement in movements]
+    quantities = [movement.quantity for movement in movements]
+
+    # إنشاء الرسم البياني
+    plt.figure(figsize=(10, 6))
+    plt.plot(dates, quantities, marker='o', linestyle='-', color='b')
+    plt.title('الرسم البياني للسحب')
+    plt.xlabel('التاريخ')
+    plt.ylabel('الكمية المسحوبة')
+    plt.grid(True)
+
+    # تحويل الرسم البياني إلى صورة
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    image_data = base64.b64encode(buf.getvalue()).decode('utf-8')
+    buf.close()
+
+    # تمرير الرسم البياني إلى القالب
+    return render(request, 'myapp/chart.html', {'chart': image_data})
 # Show graph for withdrawals
 def show_graph(request):
     movements = Movement.objects.filter(movement_type='سحب')
