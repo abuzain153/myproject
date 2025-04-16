@@ -45,7 +45,12 @@ class ProductCreateView(CreateView):
     def form_invalid(self, form):
         messages.error(self.request, "حدث خطأ في إضافة المنتج. يرجى التحقق من النموذج.")
         return super().form_invalid(form)
-
+def show_reports(request):
+    # يمكن إضافة منطق عرض التقارير هنا
+    context = {
+        'reports': [],  # أضف التقارير هنا
+    }
+    return render(request, 'myapp/reports.html', context)
 def clear_products(request):
     # حذف جميع المنتجات
     Product.objects.all().delete()
