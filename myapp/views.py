@@ -46,9 +46,22 @@ class ProductCreateView(CreateView):
         messages.error(self.request, "حدث خطأ في إضافة المنتج. يرجى التحقق من النموذج.")
         return super().form_invalid(form)
 def show_reports(request):
-    # يمكن إضافة منطق عرض التقارير هنا
+    # جلب جميع الحركات (سحب واستلام) من قاعدة البيانات
+    movements = Movement.objects.all().order_by('-date')
+
+    # إنشاء قائمة التقارير
+    reports = []
+    for movement in movements:
+        reports.append({
+            'product_name': movement.product.product_name,
+            'movement_type': movement.movement_type,
+            'quantity': movement.quantity,
+            'date': movement.date.strftime('%Y-%m-%d'),
+        })
+
+    # تمرير التقارير إلى القالب
     context = {
-        'reports': [],  # أضف التقارير هنا
+        'reports': reports,
     }
     return render(request, 'myapp/reports.html', context)
 def product_list(request):
