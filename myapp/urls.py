@@ -2,7 +2,8 @@ from django.urls import path
 from .views import ProductListView
 from . import views
 urlpatterns = [
-    # الروابط الجديدة
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
     path('', views.index, name='index'),  # الصفحة الرئيسية
     path('inventory/', views.inventory, name='inventory'),  # صفحة المخزون
 
