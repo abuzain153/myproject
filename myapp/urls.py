@@ -23,4 +23,5 @@ urlpatterns = [
     path('withdrawn-chart/', views.chart_view, name='withdrawn_chart'),
     path('import_excel/', views.import_excel, name='import_excel'),
     path('export_excel/', views.export_excel, name='export_excel'),
+    path('', views.index, name='index'),
 ]
