@@ -167,22 +167,7 @@
                 <button class="dropdown-button">إدارة المنتجات 📦</button>
                 <div class="dropdown-content">
                     <a href="{% url 'add_product' %}">إضافة منتج جديد</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <button class="dropdown-button">التقارير 📊</button>
-                <div class="dropdown-content">
-                    <a href="{% url 'withdrawn_report' %}">تقرير السحوبات</a>
-                    <a href="{% url 'inventory' %}">تقرير المخزون الحالي</a>
-                    <a href="{% url 'shortages' %}">تقرير النواقص</a>
-                    <a href="{% url 'received_report' %}">تقرير الاستلامات</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <button class="dropdown-button">الحركات 🔄</button>
-                <div class="dropdown-content">
-                    <a href="{% url 'movement_add_quantity' %}">إضافة كمية</a>
-                    <a href="{% url 'movement_withdraw_quantity' %}">سحب كمية</a>
+                    <a href="{% url 'low_stock_products' %}">عرض المنتجات ذات المخزون المنخفض</a>
                 </div>
             </li>
             <li><a href="{% url 'logout' %}">تسجيل الخروج</a></li>
