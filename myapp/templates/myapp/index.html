@@ -128,6 +128,29 @@
             padding: 20px 0;
             background-color: #f8f8f8;
         }
+
+        .product-container {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .product-container span {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .product-container a {
+            color: blue;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        .product-container a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -144,8 +167,6 @@
                 <button class="dropdown-button">إدارة المنتجات 📦</button>
                 <div class="dropdown-content">
                     <a href="{% url 'add_product' %}">إضافة منتج جديد</a>
-                    <a href="{% url 'edit_product' %}">تعديل منتج</a>
-                    <a href="{% url 'delete_product' %}">حذف منتج</a>
                 </div>
             </li>
             <li class="dropdown">
@@ -175,6 +196,18 @@
             <p>إدارة متكاملة وسهلة لمنتجاتك وحركاتك اليومية.</p>
         </div>
     </header>
+
+    <!-- قائمة المنتجات -->
+    <section class="section">
+        <h2>قائمة المنتجات</h2>
+        {% for product in products %}
+        <div class="product-container">
+            <span>{{ product.name }}</span>
+            <a href="{% url 'edit_product' pk=product.id %}">تعديل</a>
+            <a href="{% url 'delete_product' pk=product.id %}">حذف</a>
+        </div>
+        {% endfor %}
+    </section>
 
     <!-- عن الموقع -->
     <section id="about" class="section">
