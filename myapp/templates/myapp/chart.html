@@ -12,6 +12,7 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            direction: rtl; /* عشان النص العربي */
         }
 
         .container {
@@ -38,6 +39,7 @@
             margin: 0 auto;
             width: 100%;
             height: auto;
+            margin-bottom: 20px; /* مساحة بين الرسم البياني والجدول */
         }
     </style>
 </head>
@@ -51,6 +53,30 @@
         </div>
     {% else %}
         <canvas id="withdrawalChart"></canvas>
+
+        <h2 class="text-center mb-3">المنتجات الأكثر سحبًا</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-primary">
+                    <tr>
+                        <th class="text-center">اسم المنتج</th>
+                        <th class="text-center">كمية السحب الإجمالية</th>
+                        <th class="text-center">الوحدة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in withdrawn_data %}
+                    <tr>
+                        <td class="text-center">{{ item.product__product_name }}</td>
+                        <td class="text-center">{{ item.total_quantity }}</td>
+                        <td class="text-center">{{ item.product__unit }}</td>
+                    </tr>
+                    {% empty %}
+                        <tr><td colspan="3" class="text-center">لا توجد بيانات لعرض المنتجات المسحوبة.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% endif %}
 </div>
 
@@ -58,7 +84,7 @@
     {% if withdrawn_data %}
         const withdrawnData = [
             {% for data in withdrawn_data %}
-                { label: '{{ data.product__product_name }}', data: {{ data.total_quantity }} },
+                { label: '{{ data.product__product_name }}', data: '{{ data.total_quantity }}' },
             {% endfor %}
         ];
 
@@ -69,31 +95,34 @@
                 labels: withdrawnData.map(item => item.label),
                 datasets: [{
                     label: 'الكمية المسحوبة',
-                    data: withdrawnData.map(item => item.data),
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    data: withdrawnData.map(item => parseInt(item.data)),
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
                     borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
+                    borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw + ' وحدة';
-                            }
-                        }
-                    }
-                },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: {
-                            stepSize: 1
+                        title: {
+                            display: true,
+                            text: 'الكمية'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'المنتج'
                         }
                     }
-                }
+                },
+                plugins: {
+                    tooltip: {
+                        rtl: true, // عشان النص العربي في التولتيب
+                    },
+                },
             }
         });
     {% endif %}

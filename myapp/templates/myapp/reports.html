@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ report_type }}{% endblock %}
+{% block title %}سجل الحركات{% endblock %}
 
 {% block content %}
 <div class="container my-5">
-    <h1 class="text-center mb-4">{{ report_type }}</h1>
+    <h1 class="text-center mb-4">سجل الحركات</h1>
 
     <div class="d-flex justify-content-center mb-4">
-        <a href="{% url 'export_excel' %}" class="btn btn-success me-2">تصدير إلى Excel</a>
-       
+        <a href="{% url 'received_report' %}" class="btn btn-success me-2">تنزيل تقرير الاستلام (Excel)</a>
+        <a href="{% url 'withdrawn_report' %}" class="btn btn-danger">تنزيل تقرير السحب (Excel)</a>
     </div>
 
     <div class="search-box mb-4">
@@ -16,28 +16,34 @@
     </div>
 
     {% if movements %}
-        <div class="table-responsive">
-            <table id="movementsTable" class="table table-bordered table-striped">
-                <thead class="table-primary">
-                    <tr>
-                        <th class="text-center">اسم المنتج</th>
-                        <th class="text-center">الكمية</th>
-                        <th class="text-center">الوحدة</th>
-                        <th class="text-center">التاريخ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for movement in movements %}
-                        <tr>
-                            <td class="text-center">{{ movement.product.product_name }}</td>
-                            <td class="text-center">{{ movement.quantity }}</td>
-                            <td class="text-center">{{ movement.product.unit }}</td>
-                            <td class="text-center">{{ movement.date }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <div class="table-responsive">
+        <table id="movementsTable" class="table table-bordered table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">اسم المنتج</th>
+                    <th class="text-center">نوع الحركة</th>
+                    <th class="text-center">الكمية</th>
+                    <th class="text-center">الوحدة</th>
+                    <th class="text-center">التاريخ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movement in movements %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td class="text-center">{{ movement.product.product_name }}</td>
+                    <td class="text-center">{{ movement.movement_type }}</td>
+                    <td class="text-center">{{ movement.quantity }}</td>
+                    <td class="text-center">{{ movement.product.unit }}</td>
+                    <td class="text-center">{{ movement.date }}</td>
+                </tr>
+                {% empty %}
+                    <tr><td colspan="6" class="text-center">لا توجد حركات لعرضها في هذا التقرير.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% else %}
         <p class="text-center text-warning fw-bold">لا توجد حركات لعرضها في هذا التقرير.</p>
     {% endif %}
